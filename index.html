@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Multi-Function Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .tab:hover, .tab.active {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .display {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 2em;
+            text-align: right;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .buttons {
+            display: grid;
+            grid-gap: 10px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .operator {
+            background: rgba(255, 165, 0, 0.5);
+        }
+
+        .operator:hover {
+            background: rgba(255, 165, 0, 0.7);
+        }
+
+        #basic-buttons {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        #scientific-buttons {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        #currency-converter, #unit-converter {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input, select {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+
+        ::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #currency-result, #unit-result {
+            font-size: 1.5em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('basic')">Basic</button>
+            <button class="tab" onclick="switchTab('scientific')">Scientific</button>
+            <button class="tab" onclick="switchTab('currency')">Currency</button>
+            <button class="tab" onclick="switchTab('units')">Units</button>
+        </div>
+
+        <div id="basic" class="content active">
+            <div id="basic-display" class="display">0</div>
+            <div id="basic-buttons" class="buttons">
+                <button class="btn" onclick="appendToDisplay('7', 'basic')">7</button>
+                <button class="btn" onclick="appendToDisplay('8', 'basic')">8</button>
+                <button class="btn" onclick="appendToDisplay('9', 'basic')">9</button>
+                <button class="btn operator" onclick="appendToDisplay('/', 'basic')">/</button>
+                <button class="btn" onclick="clearDisplay('basic')">C</button>
+
+                <button class="btn" onclick="appendToDisplay('4', 'basic')">4</button>
+                <button class="btn" onclick="appendToDisplay('5', 'basic')">5</button>
+                <button class="btn" onclick="appendToDisplay('6', 'basic')">6</button>
+                <button class="btn operator" onclick="appendToDisplay('*', 'basic')">*</button>
+                <button class="btn operator" onclick="backspace('basic')">&lt;</button>
+
+                <button class="btn" onclick="appendToDisplay('1', 'basic')">1</button>
+                <button class="btn" onclick="appendToDisplay('2', 'basic')">2</button>
+                <button class="btn" onclick="appendToDisplay('3', 'basic')">3</button>
+                <button class="btn operator" onclick="appendToDisplay('-', 'basic')">-</button>
+                <button class="btn operator" onclick="calculate('basic')">=</button>
+
+                <button class="btn" onclick="appendToDisplay('0', 'basic')">0</button>
+                <button class="btn" onclick="appendToDisplay('.', 'basic')">.</button>
+                <button class="btn operator" onclick="appendToDisplay('+', 'basic')">+</button>
+            </div>
+        </div>
+
+        <div id="scientific" class="content">
+            <div id="scientific-display" class="display">0</div>
+            <div id="scientific-buttons" class="buttons">
+                <button class="btn" onclick="appendToDisplay('sin(', 'scientific')">sin</button>
+                <button class="btn" onclick="appendToDisplay('cos(', 'scientific')">cos</button>
+                <button class="btn" onclick="appendToDisplay('tan(', 'scientific')">tan</button>
+                <button class="btn" onclick="appendToDisplay('log(', 'scientific')">log</button>
+                <button class="btn" onclick="appendToDisplay('exp(', 'scientific')">exp</button>
+
+                <button class="btn" onclick="appendToDisplay('7', 'scientific')">7</button>
+                <button class="btn" onclick="appendToDisplay('8', 'scientific')">8</button>
+                <button class="btn" onclick="appendToDisplay('9', 'scientific')">9</button>
+                <button class="btn operator" onclick="appendToDisplay('/', 'scientific')">/</button>
+                <button class="btn" onclick="appendToDisplay('sqrt(', 'scientific')">√</button>
+
+                <button class="btn" onclick="appendToDisplay('4', 'scientific')">4</button>
+                <button class="btn" onclick="appendToDisplay('5', 'scientific')">5</button>
+                <button class="btn" onclick="appendToDisplay('6', 'scientific')">6</button>
+                <button class="btn operator" onclick="appendToDisplay('*', 'scientific')">*</button>
+                <button class="btn" onclick="appendToDisplay('^', 'scientific')">^</button>
+
+                <button class="btn" onclick="appendToDisplay('1', 'scientific')">1</button>
+                <button class="btn" onclick="appendToDisplay('2', 'scientific')">2</button>
+                <button class="btn" onclick="appendToDisplay('3', 'scientific')">3</button>
+                <button class="btn operator" onclick="appendToDisplay('-', 'scientific')">-</button>
+                <button class="btn" onclick="appendToDisplay('pi', 'scientific')">π</button>
+
+                <button class="btn" onclick="appendToDisplay('0', 'scientific')">0</button>
+                <button class="btn" onclick="appendToDisplay('.', 'scientific')">.</button>
+                <button class="btn operator" onclick="appendToDisplay('+', 'scientific')">+</button>
+                <button class="btn" onclick="appendToDisplay('(', 'scientific')">(</button>
+                <button class="btn" onclick="appendToDisplay(')', 'scientific')">)</button>
+
+                <button class="btn" onclick="clearDisplay('scientific')">C</button>
+                <button class="btn operator" onclick="backspace('scientific')">&lt;</button>
+                <button class="btn operator" colspan="3" onclick="calculateScientific()">=</button>
+            </div>
+        </div>
+
+        <div id="currency" class="content">
+            <input type="number" id="currency-amount" placeholder="Amount">
+            <select id="from-currency">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="JPY">JPY</option>
+                <option value="CAD">CAD</option>
+                <option value="AUD">AUD</option>
+                <!-- Add more currencies as needed -->
+            </select>
+            <select id="to-currency">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="JPY">JPY</option>
+                <option value="CAD">CAD</option>
+                <option value="AUD">AUD</option>
+                <!-- Add more currencies as needed -->
+            </select>
+            <button class="btn" onclick="convertCurrency()">Convert</button>
+            <div id="currency-result" class="display"></div>
+        </div>
+
+        <div id="units" class="content">
+            <select id="unit-category">
+                <option value="length">Length</option>
+                <option value="weight">Weight</option>
+                <option value="temperature">Temperature</option>
+                <!-- Add more categories -->
+            </select>
+            <input type="number" id="unit-value" placeholder="Value">
+            <select id="from-unit"></select>
+            <select id="to-unit"></select>
+            <button class="btn" onclick="convertUnit()">Convert</button>
+            <div id="unit-result" class="display"></div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.content').forEach(content => content.classList.remove('active'));
+            document.querySelector(`[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            if (tabId === 'units') updateUnits();
+        }
+
+        function appendToDisplay(value, type) {
+            const display = document.getElementById(`${type}-display`);
+            if (display.innerText === '0' || display.innerText === 'Error') {
+                display.innerText = value;
+            } else {
+                display.innerText += value;
+            }
+        }
+
+        function clearDisplay(type) {
+            document.getElementById(`${type}-display`).innerText = '0';
+        }
+
+        function backspace(type) {
+            const display = document.getElementById(`${type}-display`);
+            display.innerText = display.innerText.slice(0, -1) || '0';
+        }
+
+        function calculate(type) {
+            const display = document.getElementById(`${type}-display`);
+            try {
+                display.innerText = eval(display.innerText);
+            } catch {
+                display.innerText = 'Error';
+            }
+        }
+
+        function calculateScientific() {
+            const display = document.getElementById('scientific-display');
+            let expr = display.innerText;
+            expr = expr.replace(/sin/g, 'Math.sin').replace(/cos/g, 'Math.cos').replace(/tan/g, 'Math.tan')
+                       .replace(/log/g, 'Math.log10').replace(/exp/g, 'Math.exp').replace(/sqrt/g, 'Math.sqrt')
+                       .replace(/\^/g, '**').replace(/pi/g, 'Math.PI');
+            try {
+                display.innerText = eval(expr);
+            } catch {
+                display.innerText = 'Error';
+            }
+        }
+
+        async function convertCurrency() {
+            const amount = document.getElementById('currency-amount').value;
+            const from = document.getElementById('from-currency').value;
+            const to = document.getElementById('to-currency').value;
+            const resultDiv = document.getElementById('currency-result');
+
+            if (!amount) return;
+
+            try {
+                const response = await fetch(`https://open.er-api.com/v6/latest/${from}`);
+                const data = await response.json();
+                const rate = data.rates[to];
+                const result = amount * rate;
+                resultDiv.innerText = `${result.toFixed(2)} ${to}`;
+            } catch {
+                resultDiv.innerText = 'Error fetching rates';
+            }
+        }
+
+        const units = {
+            length: {
+                m: 1,
+                cm: 100,
+                mm: 1000,
+                km: 0.001,
+                inch: 39.3701,
+                foot: 3.28084
+            },
+            weight: {
+                kg: 1,
+                g: 1000,
+                mg: 1000000,
+                lb: 2.20462,
+                oz: 35.274
+            },
+            temperature: {
+                c: (v) => v,
+                f: (v) => (v * 9/5) + 32,
+                k: (v) => v + 273.15
+            }
+        };
+
+        function updateUnits() {
+            const category = document.getElementById('unit-category').value;
+            const fromSelect = document.getElementById('from-unit');
+            const toSelect = document.getElementById('to-unit');
+            fromSelect.innerHTML = '';
+            toSelect.innerHTML = '';
+            Object.keys(units[category]).forEach(unit => {
+                fromSelect.innerHTML += `<option value="${unit}">${unit.toUpperCase()}</option>`;
+                toSelect.innerHTML += `<option value="${unit}">${unit.toUpperCase()}</option>`;
+            });
+        }
+
+        function convertUnit() {
+            const category = document.getElementById('unit-category').value;
+            const value = parseFloat(document.getElementById('unit-value').value);
+            const from = document.getElementById('from-unit').value;
+            const to = document.getElementById('to-unit').value;
+            const resultDiv = document.getElementById('unit-result');
+
+            if (isNaN(value)) return;
+
+            if (category === 'temperature') {
+                let celsius;
+                if (from === 'c') celsius = value;
+                else if (from === 'f') celsius = (value - 32) * 5/9;
+                else if (from === 'k') celsius = value - 273.15;
+
+                let result;
+                if (to === 'c') result = celsius;
+                else if (to === 'f') result = units.temperature.f(celsius);
+                else if (to === 'k') result = units.temperature.k(celsius);
+
+                resultDiv.innerText = `${result.toFixed(2)} ${to.toUpperCase()}`;
+            } else {
+                const base = value / units[category][from];
+                const result = base * units[category][to];
+                resultDiv.innerText = `${result.toFixed(2)} ${to.toUpperCase()}`;
+            }
+        }
+
+        // Initial update for units
+        updateUnits();
+    </script>
+</body>
+</html>
