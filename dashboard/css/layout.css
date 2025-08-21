@@ -1,0 +1,500 @@
+/*
+ * Layout CSS - Grid System and Responsive Layout
+ * Customizable Dashboard
+ */
+
+/* App Layout */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* App Bar */
+.app-bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background-color: var(--panel);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+}
+
+.app-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-6);
+  gap: var(--space-4);
+}
+
+.app-title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.app-bar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 400px;
+}
+
+.app-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+/* Search Container */
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  padding-right: var(--space-10);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: var(--text-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.search-input::placeholder {
+  color: var(--muted);
+}
+
+.search-clear {
+  position: absolute;
+  right: var(--space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.search-clear:hover {
+  color: var(--text);
+}
+
+.search-clear svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Dashboard Main Content */
+.dashboard {
+  flex: 1;
+  padding: var(--space-6);
+  overflow: auto;
+}
+
+/* Dashboard Grid System */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  gap: var(--grid-gap);
+  min-height: 100%;
+  position: relative;
+}
+
+/* Widget Grid Positioning */
+.widget {
+  position: relative;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  will-change: transform;
+}
+
+.widget.dragging {
+  z-index: var(--z-modal);
+  transform: rotate(2deg) scale(1.02);
+  cursor: grabbing;
+}
+
+.widget.resizing {
+  z-index: var(--z-modal);
+}
+
+/* Grid Helper Classes for Dynamic Positioning */
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-9 { grid-column: span 9; }
+.col-10 { grid-column: span 10; }
+.col-11 { grid-column: span 11; }
+.col-12 { grid-column: span 12; }
+
+.row-1 { grid-row: span 1; }
+.row-2 { grid-row: span 2; }
+.row-3 { grid-row: span 3; }
+.row-4 { grid-row: span 4; }
+.row-5 { grid-row: span 5; }
+.row-6 { grid-row: span 6; }
+
+/* Grid Start Positions */
+.col-start-1 { grid-column-start: 1; }
+.col-start-2 { grid-column-start: 2; }
+.col-start-3 { grid-column-start: 3; }
+.col-start-4 { grid-column-start: 4; }
+.col-start-5 { grid-column-start: 5; }
+.col-start-6 { grid-column-start: 6; }
+.col-start-7 { grid-column-start: 7; }
+.col-start-8 { grid-column-start: 8; }
+.col-start-9 { grid-column-start: 9; }
+.col-start-10 { grid-column-start: 10; }
+.col-start-11 { grid-column-start: 11; }
+.col-start-12 { grid-column-start: 12; }
+
+.row-start-1 { grid-row-start: 1; }
+.row-start-2 { grid-row-start: 2; }
+.row-start-3 { grid-row-start: 3; }
+.row-start-4 { grid-row-start: 4; }
+.row-start-5 { grid-row-start: 5; }
+.row-start-6 { grid-row-start: 6; }
+
+/* Drag Placeholder */
+.drag-placeholder {
+  background-color: var(--primary-light);
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius-lg);
+  opacity: 0.5;
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Drag Ghost */
+.drag-ghost {
+  opacity: 0.8;
+  pointer-events: none;
+  transform: rotate(2deg) scale(1.02);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Resize Handles */
+.resize-handle {
+  position: absolute;
+  background-color: var(--primary);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  z-index: 10;
+}
+
+.widget:hover .resize-handle,
+.widget.focused .resize-handle {
+  opacity: 1;
+}
+
+.resize-handle-n {
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  cursor: n-resize;
+}
+
+.resize-handle-s {
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  cursor: s-resize;
+}
+
+.resize-handle-e {
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  cursor: e-resize;
+}
+
+.resize-handle-w {
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  cursor: w-resize;
+}
+
+.resize-handle-ne {
+  top: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  cursor: ne-resize;
+}
+
+.resize-handle-nw {
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  cursor: nw-resize;
+}
+
+.resize-handle-se {
+  bottom: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  cursor: se-resize;
+}
+
+.resize-handle-sw {
+  bottom: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  cursor: sw-resize;
+}
+
+/* Responsive Design */
+
+/* Mobile First - Small screens (< 640px) */
+@media (max-width: 639px) {
+  :root {
+    --grid-cols: 4;
+    --grid-gap: 0.75rem;
+    --grid-row-height: 3rem;
+  }
+  
+  .app-bar-content {
+    padding: var(--space-3) var(--space-4);
+    gap: var(--space-2);
+  }
+  
+  .app-title {
+    font-size: var(--text-lg);
+  }
+  
+  .app-bar-center {
+    max-width: 200px;
+  }
+  
+  .dashboard {
+    padding: var(--space-4);
+  }
+  
+  .search-container {
+    max-width: 200px;
+  }
+  
+  /* Stack actions vertically on very small screens */
+  .app-bar-actions {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+}
+
+/* Small screens (640px - 767px) */
+@media (min-width: 640px) and (max-width: 767px) {
+  :root {
+    --grid-cols: 6;
+    --grid-gap: 0.875rem;
+    --grid-row-height: 3.5rem;
+  }
+}
+
+/* Medium screens (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --grid-cols: 8;
+    --grid-gap: 1rem;
+    --grid-row-height: 4rem;
+  }
+}
+
+/* Large screens (1024px - 1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root {
+    --grid-cols: 10;
+  }
+}
+
+/* Extra large screens (≥ 1280px) */
+@media (min-width: 1280px) {
+  :root {
+    --grid-cols: 12;
+  }
+  
+  .app-bar-content {
+    max-width: 1200px;
+  }
+  
+  .dashboard {
+    padding: var(--space-8);
+  }
+}
+
+/* Ultra wide screens (≥ 1536px) */
+@media (min-width: 1536px) {
+  .app-bar-content {
+    max-width: 1400px;
+  }
+  
+  .dashboard {
+    padding: var(--space-10);
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase touch targets */
+  .resize-handle {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .resize-handle-n,
+  .resize-handle-s {
+    top: -6px;
+    bottom: -6px;
+  }
+  
+  .resize-handle-e,
+  .resize-handle-w {
+    left: -6px;
+    right: -6px;
+  }
+  
+  .resize-handle-ne {
+    top: -6px;
+    right: -6px;
+  }
+  
+  .resize-handle-nw {
+    top: -6px;
+    left: -6px;
+  }
+  
+  .resize-handle-se {
+    bottom: -6px;
+    right: -6px;
+  }
+  
+  .resize-handle-sw {
+    bottom: -6px;
+    left: -6px;
+  }
+  
+  /* Always show resize handles on touch devices */
+  .resize-handle {
+    opacity: 0.7;
+  }
+  
+  .widget:hover .resize-handle,
+  .widget.focused .resize-handle {
+    opacity: 1;
+  }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper icons and borders */
+  .resize-handle {
+    box-shadow: 0 0 0 0.5px var(--ring-offset-color);
+  }
+}
+
+/* Landscape Orientation */
+@media (orientation: landscape) and (max-height: 600px) {
+  .app-bar-content {
+    padding: var(--space-2) var(--space-4);
+  }
+  
+  .dashboard {
+    padding: var(--space-4);
+  }
+  
+  :root {
+    --grid-row-height: 3rem;
+  }
+}
+
+/* Container Queries (when supported) */
+@supports (container-type: inline-size) {
+  .dashboard {
+    container-type: inline-size;
+  }
+  
+  @container (max-width: 600px) {
+    :root {
+      --grid-cols: 4;
+    }
+  }
+  
+  @container (min-width: 600px) and (max-width: 900px) {
+    :root {
+      --grid-cols: 6;
+    }
+  }
+  
+  @container (min-width: 900px) and (max-width: 1200px) {
+    :root {
+      --grid-cols: 8;
+    }
+  }
+  
+  @container (min-width: 1200px) {
+    :root {
+      --grid-cols: 12;
+    }
+  }
+}
+
+/* Print Layout */
+@media print {
+  .app-bar {
+    position: static;
+    border-bottom: 2px solid #000;
+    background: white;
+  }
+  
+  .dashboard-grid {
+    display: block;
+  }
+  
+  .widget {
+    break-inside: avoid;
+    margin-bottom: var(--space-4);
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  .resize-handle {
+    display: none;
+  }
+}

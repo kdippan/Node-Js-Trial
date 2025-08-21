@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable Dashboard</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+    
+    <!-- CSS imports in order -->
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/widgets.css">
+    <link rel="stylesheet" href="./css/themes.css">
+    <link rel="stylesheet" href="./css/animations.css">
+</head>
+<body>
+    <!-- Top App Bar -->
+    <header class="app-bar" role="banner">
+        <div class="app-bar-content">
+            <h1 class="app-title">Dashboard</h1>
+            
+            <div class="app-bar-center">
+                <div class="search-container">
+                    <input 
+                        type="search" 
+                        id="widget-search" 
+                        placeholder="Search widgets..."
+                        aria-label="Search widgets"
+                        class="search-input"
+                    >
+                    <button class="search-clear" aria-label="Clear search" hidden>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="app-bar-actions">
+                <button class="btn-icon theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 18c-.89 0-1.74-.19-2.5-.54C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.46C10.26 6.19 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6z"/>
+                    </svg>
+                </button>
+                
+                <button class="btn-primary add-widget-btn" aria-label="Add widget">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                    Add Widget
+                </button>
+                
+                <button class="btn-icon more-menu-btn" aria-label="More options" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Content -->
+    <main class="dashboard" role="main">
+        <div class="dashboard-grid" id="dashboard-grid" role="region" aria-label="Dashboard widgets">
+            <!-- Widgets will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <!-- Add Widget Modal -->
+    <dialog class="modal" id="add-widget-modal" aria-labelledby="add-widget-title">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2 id="add-widget-title">Add Widget</h2>
+                <button class="btn-icon modal-close" aria-label="Close modal">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <div class="widget-library" id="widget-library">
+                    <!-- Widget previews will be dynamically inserted -->
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Widget Settings Modal -->
+    <dialog class="modal" id="widget-settings-modal" aria-labelledby="widget-settings-title">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2 id="widget-settings-title">Widget Settings</h2>
+                <button class="btn-icon modal-close" aria-label="Close modal">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </header>
+            
+            <div class="modal-body" id="widget-settings-content">
+                <!-- Settings form will be dynamically inserted -->
+            </div>
+            
+            <footer class="modal-footer">
+                <button class="btn-secondary" data-action="cancel">Cancel</button>
+                <button class="btn-primary" data-action="save">Save Changes</button>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- More Options Menu -->
+    <div class="dropdown-menu" id="more-menu" role="menu" aria-hidden="true">
+        <button class="menu-item" role="menuitem" data-action="export">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+            </svg>
+            Export Layout
+        </button>
+        <button class="menu-item" role="menuitem" data-action="import">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+            </svg>
+            Import Layout
+        </button>
+        <hr class="menu-divider">
+        <button class="menu-item" role="menuitem" data-action="reset">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12,6V9L16,5L12,1V4A8,8 0 0,0 4,12C4,13.57 4.46,15.03 5.24,16.26L6.7,14.8C6.25,13.97 6,13 6,12A6,6 0 0,1 12,6M18.76,7.74L17.3,9.2C17.74,10.04 18,11 18,12A6,6 0 0,1 12,18V15L8,19L12,23V20A8,8 0 0,0 20,12C20,10.43 19.54,8.97 18.76,7.74Z"/>
+            </svg>
+            Reset to Default
+        </button>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container" role="status" aria-live="polite" aria-atomic="true">
+        <!-- Toasts will be dynamically inserted -->
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true">
+        <div class="tooltip-content"></div>
+        <div class="tooltip-arrow"></div>
+    </div>
+
+    <!-- Context Menu -->
+    <div class="context-menu" id="context-menu" role="menu" aria-hidden="true">
+        <!-- Context menu items will be dynamically inserted -->
+    </div>
+
+    <!-- File input for import (hidden) -->
+    <input type="file" id="import-file-input" accept=".json" hidden aria-hidden="true">
+
+    <!-- JavaScript modules -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>
